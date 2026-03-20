@@ -1,0 +1,37 @@
+pipeline{
+    agent any
+    stages{
+        stage('ContiniousDownload')
+        {
+            steps{
+               git 'https://github.com/IntelliqDevops/maven3.git' 
+            }}
+            stage('CintiniousBuild')
+            {
+                steps{
+                    sh 'mvn package'
+                }
+            }
+            stage('Continiousdeployment'){
+                steps{
+                  deploy adapters: [tomcat9(alternativeDeploymentContext: '', credentialsId: 'c2268a07-7e34-41ac-8272-dd12d267a32a', path: '', url: 'http://172.31.30.56:8080')], contextPath: 'testapp', war: '**/*.war'
+                }
+            }
+            stage('Continious testing'){
+                steps{
+                    git 'https://github.com/IntelliqDevops/FunctionalTesting.git'
+                   sh 'java -jar /var/lib/jenkins/workspace/Declarativepipeline/testing.jar'
+                   
+                }
+            }
+            
+            stage('Continious Delivery'){
+                steps{
+                   input message: 'wait for dm', submitter: 'Radhe'
+                deploy adapters: [tomcat9(alternativeDeploymentContext: '', credentialsId: 'c2268a07-7e34-41ac-8272-dd12d267a32a', path: '', url: 'http://172.31.31.186:8080')], contextPath: 'prod', war: '**/*.war'
+            }}
+            
+        }
+    }
+    
+
