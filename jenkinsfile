@@ -25,11 +25,7 @@ pipeline{
                 }
             }
             
-            stage('Continious Delivery'){
-                steps{
-                  }
-            
-        }
+           }
     }
     
 
