@@ -27,9 +27,7 @@ pipeline{
             
             stage('Continious Delivery'){
                 steps{
-                   input message: 'wait for dm', submitter: 'Radhe'
-                deploy adapters: [tomcat9(alternativeDeploymentContext: '', credentialsId: 'c2268a07-7e34-41ac-8272-dd12d267a32a', path: '', url: 'http://172.31.31.186:8080')], contextPath: 'prod', war: '**/*.war'
-            }}
+                  }
             
         }
     }
